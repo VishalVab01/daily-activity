@@ -1,0 +1,29 @@
+name: Daily Green Commit
+
+on:
+  schedule:
+    - cron: '30 18 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Update file
+        run: |
+          echo "Last update: $(date)" > activity.txt
+
+      - name: Commit and push
+        run: |
+          git config user.name "VishalVab01"
+          git config user.email "YOUR_GITHUB_EMAIL"
+
+          git add activity.txt
+          git commit -m "Daily activity" || exit 0
+          git push
